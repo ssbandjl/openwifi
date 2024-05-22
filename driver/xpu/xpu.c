@@ -306,7 +306,7 @@ static inline u32 hw_init(enum xpu_mode mode){
 
 	// by default turn off filter, because all register are zeros
 	// let's filter out packet according to: enum ieee80211_filter_flags at: https://www.kernel.org/doc/html/v4.9/80211/mac80211.html
-	#if 0 // define in FPGA
+	#if 1 // define in FPGA
     localparam [13:0]   FIF_ALLMULTI =           14b00000000000010, //get all mac addr like 01:00:5E:xx:xx:xx and 33:33:xx:xx:xx:xx through to ARM
                         FIF_FCSFAIL =            14b00000000000100, //not support
                         FIF_PLCPFAIL =           14b00000000001000, //not support

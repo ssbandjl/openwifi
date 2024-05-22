@@ -1,0 +1,37 @@
+module_platform_driver(dev_driver) -> 加载总线设备驱动时，直接调用module_platform_driver，就可以将平台驱动注册函数和卸载函数、以及总线设备加载一次性运行完，避免了总线驱动在每次加载驱动时都需要手动注册平台总线
+    dev_probe
+        struct device_node *np = pdev->dev.of_node
+        match = of_match_node(dev_of_ids, np)
+        ...
+        io = platform_get_resource(pdev, IORESOURCE_MEM, 0)
+        base_addr = devm_ioremap_resource(&pdev->dev, io)
+        err = hw_init(XPU_NORMAL)
+            ...
+
+
+
+module_platform_driver(xilinx_vdma_driver);
+    xilinx_dma_probe
+        xdev = devm_kzalloc(&pdev->dev, sizeof(*xdev), GFP_KERNEL)
+        clk_init(pdev, &xdev->axi_clk, &xdev->tx_clk, &xdev->txs_clk,
+            devm_clk_get
+            clk_prepare_enable
+        io = platform_get_resource(pdev, IORESOURCE_MEM, 0)
+        xdev->regs = devm_ioremap_resource(&pdev->dev, io)
+        of_property_read_bool
+        of_property_read_u32
+        dma_set_mask(xdev->dev, DMA_BIT_MASK(addr_width))
+        INIT_LIST_HEAD(&xdev->common.channels)
+        xdev->common.dst_addr_widths = BIT(addr_width / 8)
+        ...
+        xilinx_dma_alloc_chan_resources
+            dma_zalloc_coherent
+            lower_32_bits
+            dma_pool_create
+
+
+
+
+
+
+
